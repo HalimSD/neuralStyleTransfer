@@ -43,3 +43,27 @@ im_show(content_image, 'Content Image')
 plt.figure()
 im_show(style_image, 'Style Image')
 
+class ContentLoss(nn.Module):
+  def __init__(self, target,):
+    super(ContentLoss, self).__init__()
+    self.target = target.detch()
+
+  def forward(self, input):
+    self.loss = nn.functional.mse_loss(input, self.target)
+    return input
+
+def gram_matrix(input):
+  batch_size, feature_maps_numbers, dim1, dim2 = input.size()
+  features = input.view(batch_size * feature_maps_numbers, dim1 * dim2)
+  G = torch.mm(features, features.t())
+  return G.div(batch_size, feature_maps_numbers, dim1, dim2)
+
+class StyleLoss(nn.Module):
+  def __init__(self, target_features):
+    super(StyleLoss, self).__init__()
+    self.target = gram_matrix(target_features).detach()
+
+  def forward(self, input):
+    G = gram_matrix(input)
+    self.loss = nn.functional.mse(G, self.target)
+    return input
