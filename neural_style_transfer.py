@@ -10,7 +10,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 image_size = 512 if torch.cuda.is_available() else 128
 
-loader = transforms.Compose([transforms.Resize(image_size), transforms.ToTensor()])
+loader = transforms.Compose([transforms.Resize((image_size,image_size)), transforms.ToTensor()])
 
 
 def image_loader(image_name):

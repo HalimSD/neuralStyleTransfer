@@ -4,6 +4,9 @@ __pycache__/
 *$py.class
 
 images/
+twitter_credentials.json
+credentials.json
+
 # C extensions
 *.so
 
